@@ -17,15 +17,20 @@
  *
  */
 
-package org.dinky.function.constant;
+package org.dinky.function.udf;
 
-public interface FlinkFunctionConstant {
+import org.apache.flink.table.functions.ScalarFunction;
 
-    /** TO_MAP 函数 */
-    String TO_MAP = "to_map";
-    /** GET_KEY 函数 */
-    String GET_KEY = "get_key";
-    /** TOP2 函数 */
-    String TOP2 = "top2";
-    String TO_UPPER = "to_upper";
+public class ToUpper extends ScalarFunction {
+
+    public String eval(String input) {
+        if (input == null) {
+            return null;
+        }
+        // Check if the string contains only English letters
+        if (input.matches("[a-zA-Z]+")) {
+            return input.toUpperCase();
+        }
+        return input;
+    }
 }

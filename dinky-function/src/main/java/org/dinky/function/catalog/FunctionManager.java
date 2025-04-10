@@ -21,6 +21,7 @@ package org.dinky.function.catalog;
 
 import org.dinky.function.constant.FlinkFunctionConstant;
 import org.dinky.function.udf.GetKey;
+import org.dinky.function.udf.ToUpper;
 import org.dinky.function.udtaf.RowsToMap;
 import org.dinky.function.udtaf.Top2;
 
@@ -41,6 +42,9 @@ public class FunctionManager {
             put(
                     FlinkFunctionConstant.GET_KEY,
                     new UDFunction(FlinkFunctionConstant.GET_KEY, UDFunction.UDFunctionType.Scalar, new GetKey()));
+            put(
+                    FlinkFunctionConstant.TO_UPPER,
+                    new UDFunction(FlinkFunctionConstant.TO_UPPER, UDFunction.UDFunctionType.Scalar, new ToUpper()));
             put(
                     FlinkFunctionConstant.TO_MAP,
                     new UDFunction(
