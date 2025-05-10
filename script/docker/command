@@ -1,0 +1,90 @@
+Docker命令
+MySQL
+
+docker run -d --name kyle_mysql \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e TZ=Asia/Shanghai \
+  -p 3306:3306 \
+  mysql:8.0.41 \
+
+
+
+Kafka
+
+docker run -d --name kafka-server --hostname kafka-server \
+    --network app-tier \
+    -p 9092:9092 \
+    -e KAFKA_CFG_NODE_ID=0 \
+    -e KAFKA_CFG_PROCESS_ROLES=controller,broker \
+    -e KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://:9093 \
+    -e KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+    -e KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-server:9093 \
+    -e KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+    -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://10.43.29.57:9092 \
+    bitnami/kafka:latest
+
+
+docker run --name=kafka-ui -d \
+    --network app-tier \
+    -e KAFKA_CLUSTERS_0_NAME=local \
+    -e KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=10.43.29.57:9092 \
+    -p 8080:8080 \
+    provectuslabs/kafka-ui:latest
+
+
+
+PG
+
+
+
+
+
+
+
+SQL DATA
+
+MySQL
+CREATE TABLE `students` (
+  `student_id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `date_of_birth` date NOT NULL,
+  `gender` int NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(15) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`student_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `grades` (
+  `grade_id` int NOT NULL AUTO_INCREMENT,
+  `student_id` int NOT NULL,
+  `student_name` varchar(100) NOT NULL,
+  `class_id` int NOT NULL,
+  `class_name` varchar(100) NOT NULL,
+  `grade` int DEFAULT NULL,
+  `grade_date` date NOT NULL,
+  PRIMARY KEY (`grade_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO kyle_db.students (first_name,last_name,date_of_birth,gender,address,phone_number,email) VALUES
+	 ('谢','知洋','2003-04-01',1,'深圳南山区海岸城','13989201288','kyle@163.com'),
+	 ('李','华','2002-05-15',1,'北京海淀区中关村','13812345678','lihua@example.com'),
+	 ('王','芳','2001-07-20',2,'上海浦东新区陆家嘴','13787654321','wangfang@example.com'),
+	 ('张','伟','2000-09-10',1,'广州天河区体育中心','13698765432','zhangwei@example.com'),
+	 ('刘','强','2003-11-25',1,'成都武侯区锦里','13576543210','liuqiang@example.com'),
+	 ('陈','丽','2002-02-28',2,'杭州西湖区灵隐寺','13465432109','chenli@example.com'),
+	 ('杨','洋','2001-12-12',1,'重庆渝中区解放碑','13354321098','yangyang@example.com'),
+	 ('赵','敏','2000-03-05',2,'武汉江汉区汉口','13243210987','zhaomin@example.com'),
+	 ('孙','浩','2003-06-18',1,'西安碑林区大雁塔','13132109876','sunhao@example.com'),
+	 ('周','婷','2002-08-22',2,'南京玄武区玄武湖','13021098765','zhouting@example.com');
+INSERT INTO kyle_db.students (first_name,last_name,date_of_birth,gender,address,phone_number,email) VALUES
+	 ('ke','y','2025-04-03',2,'广东省珠海市','19099029932','test@erdf.com'),
+	 ('测试2','kafka','2025-04-09',2,'广东省珠海市','19099029932','test2@erdf.com'),
+	 ('测试3','kafka','2025-04-10',2,'广东省东莞市','19099029932','test3@erdf.com'),
+	 ('测试4','kafka','2025-04-10',2,'广东省东莞市','19099029932','test4@erdf.com');
+
+
+
+
